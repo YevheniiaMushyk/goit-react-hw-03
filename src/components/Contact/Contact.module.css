@@ -1,0 +1,24 @@
+.contactCard {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 2px solid black;
+	border-radius: 5px;
+	padding: 10px;
+}
+.contactData {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	row-gap: 5px;
+	min-width: 350px;
+}
+.contactValue {
+	padding-left: 10px;
+	font-size: 1.5em;
+	font-weight: 500;
+	font-family: inherit;
+	line-height: 1.3;
+	text-transform: capitalize;
+}
