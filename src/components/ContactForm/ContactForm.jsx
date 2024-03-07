@@ -1,36 +1,50 @@
 import css from "./ContactForm.module.css";
 import { nanoid } from "nanoid";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 const initialValues = {
-	username: "",
+	name: "",
 	number: "",
 };
 
-const ContactForm = () => {
+const ContactFormSchema = Yup.object().shape({
+	name: Yup.string()
+		.min(3, "User name must be at least 3 characters!")
+		.max(50, "User name must be less than 50 characters!")
+		.required("User name is required!"),
+	number: Yup.string()
+		.matches(/^\d{3}-\d{2}-\d{2}$/, {
+			message: "Invalid number",
+			excludeEmptyString: false,
+		})
+		.required("Number is required!"),
+});
+
+const ContactForm = ({ addNewContact }) => {
 	const nameFieldId = nanoid();
 	const numberFieldId = nanoid();
-	const handleFormSubmit = (values, actions) => {
-		console.log(values);
-
-		actions.resetForm();
+	const handleFormSubmit = (formData, formActions) => {
+		addNewContact(formData);
+		formActions.resetForm();
+		formActions.setErrors({});
 	};
-	// onSubmit={() => {}}
 
 	return (
-		<Formik initialValues={initialValues} onSubmit={handleFormSubmit}>
+		<Formik initialValues={initialValues} onSubmit={handleFormSubmit} validationSchema={ContactFormSchema}>
 			<Form className={css.form}>
 				<div>
 					<label className={css.label} htmlFor={nameFieldId}>
 						Name
 					</label>
-					<Field className={css.field} id={nameFieldId} type="text" name="username" required />
+					<Field className={css.field} id={nameFieldId} type="text" name="name" placeholder="Alex Mihalich" />
+					<ErrorMessage className={css.errorMsg} name="name" component="span" />
 				</div>
 				<div>
 					<label className={css.label} htmlFor={numberFieldId}>
 						Number
 					</label>
-					<Field className={css.field} id={numberFieldId} type="tel" name="number" required />
+					<Field className={css.field} id={numberFieldId} type="tel" name="number" placeholder="111-11-11" />
+					<ErrorMessage className={css.errorMsg} name="number" component="span" />
 				</div>
 				<button className={css.button} type="submit">
 					Add contact
