@@ -31,26 +31,16 @@ function App() {
 		setcontactsList((prevState) => prevState.filter((contact) => contact.id !== contactId));
 	};
 
-	// Обробка інпуту для фільтрації контактів
-	const [searchValue, setSearchValue] = useState("");
-	const searchInput = (evt) => {
-		setSearchValue(evt.target.value);
-	};
-
 	// Фільтрація контактів при зміні searchValue
-	const [filteredContactsList, setfilteredContactsList] = useState(contactsList);
-	useEffect(() => {
-		const searchValueLowerCase = searchValue.toLocaleLowerCase();
-		const filtredList = contactsList.filter((contact) => contact.name.toLocaleLowerCase().includes(searchValueLowerCase));
-		setfilteredContactsList(filtredList);
-	}, [searchValue, contactsList]);
+	const [searchValue, setSearchValue] = useState("");
+	const filteredContactsList = contactsList.filter((contact) => contact.name.toLowerCase().includes(searchValue.toLowerCase()));
 
 	return (
 		<div>
 			<h1 className={css.title}>Phonebook</h1>
 			<ContactForm addNewContact={addNewContact} />
-			<SearchBox searchValue={searchValue} searchInput={searchInput} />
-			<ContactList contacts={filteredContactsList} deleteContact={deleteContact} />
+			<SearchBox searchValue={searchValue} setSearchValue={(evt) => setSearchValue(evt.target.value)} />
+			<ContactList contacts={searchValue ? filteredContactsList : contactsList} deleteContact={deleteContact} />
 		</div>
 	);
 }

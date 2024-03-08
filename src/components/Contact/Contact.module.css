@@ -1,3 +1,7 @@
+.contactCard {
+	display: flex;
+	justify-content: space-between;
+}
 .contactData {
 	display: flex;
 	flex-direction: column;
