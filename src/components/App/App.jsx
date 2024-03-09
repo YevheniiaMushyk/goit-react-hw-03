@@ -40,7 +40,7 @@ function App() {
 			<h1 className={css.title}>Phonebook</h1>
 			<ContactForm addNewContact={addNewContact} />
 			<SearchBox searchValue={searchValue} setSearchValue={(evt) => setSearchValue(evt.target.value)} />
-			<ContactList contacts={searchValue ? filteredContactsList : contactsList} deleteContact={deleteContact} />
+			<ContactList contacts={filteredContactsList} deleteContact={deleteContact} />
 		</div>
 	);
 }
