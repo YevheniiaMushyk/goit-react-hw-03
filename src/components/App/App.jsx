@@ -7,13 +7,13 @@ import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
 function App() {
+	// Аналіз вмісту та оновлення localStorage
 	const [contactsList, setcontactsList] = useState(() => {
-		const savedContacts = window.localStorage.getItem("saved-contacts");
-		return savedContacts ? JSON.parse(savedContacts) : contacts;
+		JSON.parse(localStorage.getItem("saved-contacts")) ?? contacts;
 	});
 
 	useEffect(() => {
-		window.localStorage.setItem("saved-contacts", JSON.stringify(contactsList));
+		localStorage.setItem("saved-contacts", JSON.stringify(contactsList));
 	}, [contactsList]);
 
 	// Додавання нового контакту
@@ -39,7 +39,7 @@ function App() {
 		<div>
 			<h1 className={css.title}>Phonebook</h1>
 			<ContactForm addNewContact={addNewContact} />
-			<SearchBox searchValue={searchValue} setSearchValue={(evt) => setSearchValue(evt.target.value)} />
+			<SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
 			<ContactList contacts={filteredContactsList} deleteContact={deleteContact} />
 		</div>
 	);
