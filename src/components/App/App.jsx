@@ -9,7 +9,8 @@ import { nanoid } from "nanoid";
 function App() {
 	// Аналіз вмісту та оновлення localStorage
 	const [contactsList, setcontactsList] = useState(() => {
-		JSON.parse(localStorage.getItem("saved-contacts")) ?? contacts;
+		const savedContacts = localStorage.getItem("saved-contacts");
+		return savedContacts ? JSON.parse(savedContacts) : contacts;
 	});
 
 	useEffect(() => {
@@ -33,6 +34,7 @@ function App() {
 
 	// Фільтрація контактів при зміні searchValue
 	const [searchValue, setSearchValue] = useState("");
+	// console.log(contactsList);
 	const filteredContactsList = contactsList.filter((contact) => contact.name.toLowerCase().includes(searchValue.toLowerCase()));
 
 	return (
